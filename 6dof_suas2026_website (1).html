@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-DOF Drone Team - SUAS 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p1:#8c31a1;
+  --p2:#a748b2;
+  --p3:#c06acc;
+  --pd:#5a1a6e;
+  --bg:#080810;
+  --bg2:#0e0e1a;
+  --bg3:#141422;
+  --surf:#1a1a2e;
+  --surf2:#20203a;
+  --text:#f0eef5;
+  --muted:#8a879e;
+  --brd:rgba(167,72,178,0.18);
+  --brd2:rgba(167,72,178,0.09);
+  --fd:'Syne',sans-serif;
+  --fb:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(8,8,16,0.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd2)}
+.nl{font-family:var(--fd);font-weight:800;font-size:1rem;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:0.6rem}
+.nl span{color:var(--p2)}
+.nlinks{display:flex;gap:0.1rem;list-style:none}
+.nlinks a{color:var(--muted);text-decoration:none;font-size:0.78rem;font-weight:500;letter-spacing:0.04em;padding:0.35rem 0.7rem;border-radius:6px;transition:color 0.2s,background 0.2s}
+.nlinks a:hover{color:var(--text);background:rgba(167,72,178,0.1)}
+.ncta{background:var(--p1);color:#fff;text-decoration:none;font-size:0.8rem;font-weight:500;padding:0.45rem 1.1rem;border-radius:6px;transition:background 0.2s}
+.ncta:hover{background:var(--p2)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:7rem 3rem 4rem;gap:4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;right:-8%;width:700px;height:700px;background:radial-gradient(circle,rgba(140,49,161,0.15) 0%,transparent 68%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-10%;left:-5%;width:450px;height:450px;background:radial-gradient(circle,rgba(167,72,178,0.07) 0%,transparent 70%);pointer-events:none}
+.eyebrow{font-size:0.7rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--p2);margin-bottom:0.85rem;display:flex;align-items:center;gap:0.6rem}
+.eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--p2)}
+.hero h1{font-family:var(--fd);font-size:clamp(2.6rem,4.5vw,4rem);font-weight:800;line-height:1.08;letter-spacing:-0.035em;margin-bottom:1.4rem}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--p2),var(--p3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdesc{color:var(--muted);font-size:1rem;font-weight:300;max-width:420px;margin-bottom:2.25rem;line-height:1.8}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;border-radius:8px;font-size:0.875rem;font-weight:500;text-decoration:none;cursor:pointer;transition:all 0.2s;border:none;font-family:var(--fb)}
+.btn-p{background:var(--p1);color:#fff}.btn-p:hover{background:var(--p2);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--text);border:1px solid var(--brd)}.btn-g:hover{border-color:var(--p2);color:var(--p2)}
+.hstats{display:flex;gap:2.5rem;margin-top:2.75rem;padding-top:2rem;border-top:1px solid var(--brd2)}
+.snum{font-family:var(--fd);font-size:1.8rem;font-weight:800;color:var(--text);display:block}
+.slbl{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em}
+.hvis{position:relative;display:flex;align-items:center;justify-content:center}
+.drone-wrap{animation:float 5s ease-in-out infinite;filter:drop-shadow(0 0 36px rgba(167,72,178,0.28))}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-16px) rotate(1deg)}}
+.ring1{position:absolute;width:300px;height:300px;border:1px solid rgba(167,72,178,0.16);border-radius:50%;animation:rs 22s linear infinite}
+.ring2{position:absolute;width:200px;height:200px;border:1px dashed rgba(167,72,178,0.09);border-radius:50%;animation:rs 15s linear infinite reverse}
+@keyframes rs{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* CAPS BAR */
+.caps{background:var(--bg2);border-top:1px solid var(--brd2);border-bottom:1px solid var(--brd2);padding:1.4rem 2.5rem;display:flex;gap:2.5rem;overflow-x:auto}
+.cap{display:flex;align-items:center;gap:0.55rem;white-space:nowrap;flex-shrink:0}
+.cdot{width:5px;height:5px;border-radius:50%;background:var(--p2);flex-shrink:0}
+.ctxt{font-size:0.8rem;color:var(--muted)}
+
+/* SECTIONS */
+.sec{padding:5.5rem 2.5rem;max-width:1140px;margin:0 auto;position:relative;z-index:1}
+.secfull{padding:5.5rem 2.5rem;position:relative;z-index:1}.secfull .inner{max-width:1140px;margin:0 auto}
+.sa{background:var(--bg2)}
+h2.sh{font-family:var(--fd);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:0.9rem;line-height:1.15}
+.slead{color:var(--muted);max-width:540px;font-weight:300;margin-bottom:3rem;font-size:0.96rem;line-height:1.75}
+
+/* CARDS */
+.card{background:var(--surf);border:1px solid var(--brd2);border-radius:14px;padding:1.65rem;transition:border-color 0.25s,transform 0.25s}
+.card:hover{border-color:rgba(167,72,178,0.28);transform:translateY(-3px)}
+.ca{border-top:2px solid var(--p1)}
+.ct{font-family:var(--fd);font-size:0.95rem;font-weight:700;margin-bottom:0.45rem;letter-spacing:-0.01em}
+.cb{font-size:0.875rem;color:var(--muted);line-height:1.7}
+
+/* GRIDS */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.ga{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.1rem}
+
+/* SUBTEAM CARDS */
+.stcard{background:var(--surf);border:1px solid var(--brd2);border-radius:14px;overflow:hidden}
+.sth{background:linear-gradient(135deg,var(--pd),var(--p1));padding:1.1rem 1.4rem;display:flex;align-items:center;gap:0.65rem}
+.stn{font-family:var(--fd);font-weight:700;font-size:0.9rem;color:#fff}
+.stb{padding:1.35rem}
+.str{font-size:0.8rem;color:var(--muted);padding:0.38rem 0;border-bottom:1px solid var(--brd2)}
+.str:last-child{border-bottom:none}
+
+/* MEMBER CARDS */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1.25rem}
+.mc{background:var(--surf);border:1px solid var(--brd2);border-radius:14px;padding:1.25rem;text-align:center;transition:border-color 0.25s,transform 0.25s}
+.mc:hover{border-color:rgba(167,72,178,0.28);transform:translateY(-3px)}
+.mphoto{width:80px;height:80px;border-radius:50%;background:var(--surf2);border:2px solid var(--brd);margin:0 auto 0.9rem;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.mphoto svg{width:42px;height:42px;opacity:0.35}
+.mn{font-weight:500;font-size:0.9rem;margin-bottom:0.2rem}
+.mr{font-size:0.74rem;color:var(--p2);letter-spacing:0.02em}
+.msub{font-size:0.72rem;color:var(--muted);margin-top:0.15rem}
+
+/* ARCH DIAGRAM */
+.arch{background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:2.25rem;margin-bottom:2rem;overflow:hidden}
+.arow{display:flex;align-items:center;gap:0}
+.anode{background:var(--bg3);border:1px solid var(--brd);border-radius:10px;padding:0.9rem 1.1rem;text-align:center;flex:1;min-width:0}
+.ahl{background:rgba(140,49,161,0.15);border-color:rgba(167,72,178,0.35)}
+.anlbl{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--p2);margin-bottom:0.25rem}
+.ant{font-family:var(--fd);font-weight:700;font-size:0.84rem;color:var(--text)}
+.ans{font-size:0.7rem;color:var(--muted);margin-top:0.2rem}
+.aarr{flex-shrink:0;width:36px;text-align:center;color:var(--p2);font-size:0.85rem}
+
+/* PIPELINE */
+.pl{display:flex;align-items:stretch;border:1px solid var(--brd);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.ps{flex:1;padding:1.4rem 1.1rem;border-right:1px solid var(--brd);transition:background 0.2s}
+.ps:last-child{border-right:none}
+.ps:hover{background:rgba(167,72,178,0.05)}
+.psn{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:rgba(167,72,178,0.22);margin-bottom:0.4rem;line-height:1}
+.pst{font-family:var(--fd);font-weight:700;font-size:0.85rem;margin-bottom:0.35rem}
+.psd{font-size:0.78rem;color:var(--muted);line-height:1.55}
+
+/* TESTING */
+.tp{display:flex;gap:1.25rem;padding:1.4rem 0;border-bottom:1px solid var(--brd2)}
+.tp:last-child{border-bottom:none}
+.tpn{font-family:var(--fd);font-size:1.8rem;font-weight:800;color:rgba(167,72,178,0.18);flex-shrink:0;width:44px;line-height:1;padding-top:2px}
+.tpt{font-family:var(--fd);font-weight:700;font-size:0.95rem;margin-bottom:0.3rem}
+.tpd{font-size:0.875rem;color:var(--muted);line-height:1.65}
+
+/* MISSION TRADE */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0}
+.tcard{background:var(--surf);border:1px solid var(--brd2);border-radius:12px;padding:1.4rem}
+.tlbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.65rem;font-weight:500}
+.tlbl.pro{color:#5de99a}.tlbl.con{color:#e9c35d}
+.ti{font-size:0.84rem;color:var(--muted);padding:0.28rem 0;display:flex;align-items:flex-start;gap:0.5rem}
+.ti::before{content:'→';color:var(--p2);flex-shrink:0;font-size:0.78rem;margin-top:2px}
+
+/* MEDIA */
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.mthumb{aspect-ratio:16/9;background:var(--surf);border:1px solid var(--brd2);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;transition:border-color 0.2s}
+.mthumb:hover{border-color:rgba(167,72,178,0.35)}
+.mpl{font-size:0.75rem;color:var(--muted);text-align:center;padding:0.75rem}
+.mlbl{position:absolute;bottom:0;left:0;right:0;padding:0.55rem 0.75rem;background:linear-gradient(transparent,rgba(8,8,16,0.88));font-size:0.72rem;color:var(--text);border-radius:0 0 10px 10px}
+.upd{display:flex;gap:1.25rem;padding:1.1rem 0;border-bottom:1px solid var(--brd2)}
+.upd:last-child{border-bottom:none}
+.udt{font-size:0.7rem;color:var(--p2);text-transform:uppercase;letter-spacing:0.1em;white-space:nowrap;min-width:76px;padding-top:2px}
+.udtxt{font-size:0.86rem;line-height:1.6}
+.udtag{display:inline-block;font-size:0.63rem;background:rgba(167,72,178,0.13);color:var(--p2);padding:0.14rem 0.48rem;border-radius:4px;text-transform:uppercase;letter-spacing:0.08em;margin-right:0.35rem}
+
+/* DOCS */
+.dc{background:var(--surf);border:1px solid var(--brd2);border-radius:12px;padding:1.4rem;display:flex;align-items:center;gap:1.2rem;transition:border-color 0.2s,transform 0.2s;text-decoration:none;color:inherit}
+.dc:hover{border-color:rgba(167,72,178,0.3);transform:translateX(4px)}
+.dci{width:44px;height:44px;background:rgba(167,72,178,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dct{font-weight:500;font-size:0.92rem;margin-bottom:0.2rem}
+.dcd{font-size:0.76rem;color:var(--muted)}
+.ds{margin-left:auto;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;padding:0.28rem 0.65rem;border-radius:100px;flex-shrink:0}
+.ds.wip{background:rgba(167,72,178,0.12);color:var(--p2)}
+.ds.pend{background:rgba(233,195,93,0.1);color:#e9c35d}
+
+/* SPONSORS */
+.stlbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:2rem 0 0.9rem;display:flex;align-items:center;gap:0.75rem}
+.stlbl::after{content:'';flex:1;height:1px;background:var(--brd2)}
+.spgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin-bottom:1.25rem}
+.spc{background:var(--surf);border:1px solid var(--brd2);border-radius:12px;aspect-ratio:3/1.5;display:flex;align-items:center;justify-content:center;padding:1.25rem;transition:border-color 0.2s}
+.spc:hover{border-color:rgba(167,72,178,0.3)}
+.spcpl{font-size:0.78rem;color:var(--muted);text-align:center}
+.spadd{border-style:dashed;opacity:0.5}
+
+/* FOOTER */
+footer{border-top:1px solid var(--brd2);padding:3rem 2.5rem;background:var(--bg)}
+.fi{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:start}
+.fb{font-family:var(--fd);font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:0.4rem}.fb span{color:var(--p2)}
+.ft{font-size:0.8rem;color:var(--muted)}
+.flinks{display:flex;gap:1.75rem;list-style:none}.flinks a{font-size:0.78rem;color:var(--muted);text-decoration:none;transition:color 0.2s}.flinks a:hover{color:var(--p2)}
+.fbot{max-width:1140px;margin:1.75rem auto 0;padding-top:1.4rem;border-top:1px solid var(--brd2);display:flex;justify-content:space-between;align-items:center}
+.fcopy{font-size:0.73rem;color:var(--muted)}
+
+/* UTILS */
+hr.dv{border:none;border-top:1px solid var(--brd2)}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+.chip{display:inline-block;font-size:0.7rem;font-weight:500;padding:0.22rem 0.6rem;border-radius:6px;background:var(--surf2);color:var(--muted);margin:0.18rem}
+.pts{padding-top:80px}
+
+/* SCROLL REVEAL - multiple animation styles */
+.reveal{opacity:0;transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1)}
+.reveal.from-bottom{transform:translateY(32px)}
+.reveal.from-left{transform:translateX(-28px)}
+.reveal.from-right{transform:translateX(28px)}
+.reveal.scale-in{transform:scale(0.96)}
+.reveal.in{opacity:1;transform:none}
+
+/* Staggered children */
+.stagger-children > *{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1),transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.stagger-children.in > *:nth-child(1){transition-delay:0.05s}
+.stagger-children.in > *:nth-child(2){transition-delay:0.13s}
+.stagger-children.in > *:nth-child(3){transition-delay:0.21s}
+.stagger-children.in > *:nth-child(4){transition-delay:0.29s}
+.stagger-children.in > *:nth-child(5){transition-delay:0.37s}
+.stagger-children.in > *:nth-child(6){transition-delay:0.45s}
+.stagger-children.in > *:nth-child(7){transition-delay:0.53s}
+.stagger-children.in > *:nth-child(8){transition-delay:0.61s}
+.stagger-children.in > *{opacity:1;transform:none}
+
+@media(max-width:900px){
+  nav{padding:0.9rem 1.25rem}.nlinks{display:none}
+  .hero{grid-template-columns:1fr;padding:6.5rem 1.25rem 3rem;text-align:center;gap:2rem}
+  .hstats{justify-content:center}.hvis{display:none}
+  .sec{padding:3.75rem 1.25rem}.secfull{padding:3.75rem 1.25rem}
+  .g3,.g4{grid-template-columns:1fr}.g2{grid-template-columns:1fr}
+  .tc{grid-template-columns:1fr;gap:2rem}
+  .tgrid{grid-template-columns:1fr}.mgrid{grid-template-columns:1fr}
+  .pl{flex-direction:column}.ps{border-right:none;border-bottom:1px solid var(--brd)}.ps:last-child{border-bottom:none}
+  .arow{flex-direction:column}.aarr{transform:rotate(90deg)}
+  .caps{padding:1rem 1.25rem}
+  footer{padding:2rem 1.25rem}.fi{grid-template-columns:1fr}
+  .member-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nl" href="#home">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="13" stroke="#a748b2" stroke-width="1.4"/>
+      <circle cx="14" cy="14" r="3.5" fill="#a748b2"/>
+      <line x1="14" y1="3" x2="14" y2="9.5" stroke="#a748b2" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="14" y1="18.5" x2="14" y2="25" stroke="#a748b2" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="3" y1="14" x2="9.5" y2="14" stroke="#a748b2" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="18.5" y1="14" x2="25" y2="14" stroke="#a748b2" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    6-DOF <span>Drone</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#team">Team</a></li>
+    <li><a href="#system">System</a></li>
+    <li><a href="#ai">AI</a></li>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#gcs">GCS</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#media">Media</a></li>
+    <li><a href="#docs">Docs</a></li>
+    <li><a href="#sponsors">Sponsors</a></li>
+  </ul>
+  <a class="ncta" href="#docs">View TDR</a>
+</nav>
+
+<!-- HERO -->
+<section id="home" style="padding-top:0">
+<div class="hero">
+  <div>
+    <div class="eyebrow">AUVSI SUAS 2026 Competition</div>
+    <h1>Systems that <em>think, fly,</em> and deliver.</h1>
+    <p class="hdesc">6-DOF Drone Team is a group of engineers building a fully integrated autonomous UAV. We care about the system as a whole, not just its parts, and we compete with something that actually works.</p>
+    <div class="hbtns">
+      <a class="btn btn-p" href="#system">Explore the System</a>
+      <a class="btn btn-g" href="#docs">Documentation</a>
+    </div>
+    <div class="hstats">
+      <div><span class="snum">6</span><span class="slbl">Subsystems</span></div>
+      <div><span class="snum">4</span><span class="slbl">Subteams</span></div>
+      <div><span class="snum">2026</span><span class="slbl">Competition</span></div>
+    </div>
+  </div>
+  <div class="hvis">
+    <div class="ring1"></div>
+    <div class="ring2"></div>
+    <div class="drone-wrap">
+      <svg width="250" height="170" viewBox="0 0 250 170" fill="none">
+        <line x1="125" y1="85" x2="52" y2="52" stroke="#a748b2" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="125" y1="85" x2="198" y2="52" stroke="#a748b2" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="125" y1="85" x2="52" y2="118" stroke="#a748b2" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="125" y1="85" x2="198" y2="118" stroke="#a748b2" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="105" y="68" width="40" height="34" rx="8" fill="#1a1a2e" stroke="#a748b2" stroke-width="1.5"/>
+        <circle cx="125" cy="85" r="7" fill="#8c31a1"/>
+        <circle cx="125" cy="85" r="3" fill="#c06acc"/>
+        <ellipse cx="49" cy="50" rx="22" ry="6.5" fill="rgba(167,72,178,0.22)" stroke="#a748b2" stroke-width="1"/>
+        <circle cx="49" cy="50" r="3.5" fill="#8c31a1"/>
+        <ellipse cx="201" cy="50" rx="22" ry="6.5" fill="rgba(167,72,178,0.22)" stroke="#a748b2" stroke-width="1"/>
+        <circle cx="201" cy="50" r="3.5" fill="#8c31a1"/>
+        <ellipse cx="49" cy="120" rx="22" ry="6.5" fill="rgba(167,72,178,0.22)" stroke="#a748b2" stroke-width="1"/>
+        <circle cx="49" cy="120" r="3.5" fill="#8c31a1"/>
+        <ellipse cx="201" cy="120" rx="22" ry="6.5" fill="rgba(167,72,178,0.22)" stroke="#a748b2" stroke-width="1"/>
+        <circle cx="201" cy="120" r="3.5" fill="#8c31a1"/>
+        <line x1="113" y1="102" x2="108" y2="118" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="137" y1="102" x2="142" y2="118" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="101" y1="118" x2="149" y2="118" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round"/>
+        <rect x="117" y="118" width="16" height="10" rx="3" fill="#8c31a1" opacity="0.65"/>
+        <rect x="119" y="102" width="12" height="8" rx="2" fill="#20203a" stroke="#a748b2" stroke-width="1"/>
+        <circle cx="125" cy="106" r="2.5" fill="#a748b2"/>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="caps">
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Autonomous Flight Control</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Real-time Object Detection</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Precision Payload Drop</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Telemetry and GCS Integration</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Sensor Fusion Navigation</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Redundant Communication Links</span></div>
+  <div class="cap"><div class="cdot"></div><span class="ctxt">Full Mission Autonomy</span></div>
+</div>
+
+<hr class="dv">
+
+<!-- TEAM -->
+<section id="team" class="sec pts">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">The Team</div>
+    <h2 class="sh">People who care about<br>how it all fits together.</h2>
+    <p class="slead">We work across four subteams, each focused on a different layer of the system. Good outcomes here depend on all of them staying in sync.</p>
+  </div>
+
+  <div class="g4 stagger-children" style="margin-bottom:3rem">
+    <div class="stcard">
+      <div class="sth"><span class="stn">AI and Vision</span></div>
+      <div class="stb">
+        <div class="str">Computer Vision Lead</div>
+        <div class="str">ML Model Engineer</div>
+        <div class="str">Mapping and Localization</div>
+        <div class="str">Data Pipeline</div>
+      </div>
+    </div>
+    <div class="stcard">
+      <div class="sth"><span class="stn">Hardware</span></div>
+      <div class="stb">
+        <div class="str">Airframe Lead</div>
+        <div class="str">Propulsion Engineer</div>
+        <div class="str">Power Systems</div>
+        <div class="str">Payload Mechanism</div>
+      </div>
+    </div>
+    <div class="stcard">
+      <div class="sth"><span class="stn">Flight Control</span></div>
+      <div class="stb">
+        <div class="str">Autopilot Engineer</div>
+        <div class="str">Sensor Integration</div>
+        <div class="str">Mission Planner</div>
+        <div class="str">Safety Systems</div>
+      </div>
+    </div>
+    <div class="stcard">
+      <div class="sth"><span class="stn">GCS and Comms</span></div>
+      <div class="stb">
+        <div class="str">GCS Software Lead</div>
+        <div class="str">Telemetry Engineer</div>
+        <div class="str">UI and Dashboard Dev</div>
+        <div class="str">RF Communications</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal from-bottom" style="margin-bottom:1.25rem">
+    <div class="eyebrow">Members</div>
+  </div>
+
+  <div class="member-grid stagger-children">
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">Team Lead</div>
+      <div class="mr">Project Management</div>
+      <div class="msub">All Subteams</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">Systems Engineer</div>
+      <div class="mr">Integration</div>
+      <div class="msub">All Subteams</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">AI Subteam Lead</div>
+      <div class="mr">Vision Lead</div>
+      <div class="msub">AI and Vision</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">ML Engineer</div>
+      <div class="mr">Model Training</div>
+      <div class="msub">AI and Vision</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">Hardware Lead</div>
+      <div class="mr">Airframe</div>
+      <div class="msub">Hardware</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">Flight Control Lead</div>
+      <div class="mr">Autopilot</div>
+      <div class="msub">Flight Control</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">GCS Lead</div>
+      <div class="mr">Ground Software</div>
+      <div class="msub">GCS and Comms</div>
+    </div>
+    <div class="mc">
+      <div class="mphoto">
+        <svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg>
+      </div>
+      <div class="mn">Member Name</div>
+      <div class="mr">Role</div>
+      <div class="msub">Subteam</div>
+    </div>
+  </div>
+
+  <div class="reveal from-bottom" style="margin-top:3rem;background:var(--surf);border:1px solid var(--brd2);border-radius:14px;aspect-ratio:16/5;display:flex;align-items:center;justify-content:center">
+    <span style="font-size:0.85rem;color:var(--muted)">Group photo placeholder</span>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- SYSTEM OVERVIEW -->
+<div class="secfull sa pts" id="system">
+<div class="inner sec">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">System Overview</div>
+    <h2 class="sh">One system.<br>Every part connected.</h2>
+    <p class="slead">We designed the UAV as a cohesive architecture rather than a collection of independent subsystems. Each layer shares data with the others in real time, and nothing operates in isolation.</p>
+  </div>
+
+  <div class="arch reveal scale-in">
+    <div style="margin-bottom:1.4rem;font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em">Full System Data Flow</div>
+    <div class="arow">
+      <div class="anode ahl"><div class="anlbl">Sensing</div><div class="ant">Camera and IMU</div><div class="ans">RGB, GPS, Baro</div></div>
+      <div class="aarr">→</div>
+      <div class="anode ahl"><div class="anlbl">Processing</div><div class="ant">AI Pipeline</div><div class="ans">Detect and Classify</div></div>
+      <div class="aarr">→</div>
+      <div class="anode ahl"><div class="anlbl">Decision</div><div class="ant">Flight Controller</div><div class="ans">Autopilot and Logic</div></div>
+      <div class="aarr">→</div>
+      <div class="anode ahl"><div class="anlbl">Action</div><div class="ant">Payload System</div><div class="ans">Precision Drop</div></div>
+      <div class="aarr">→</div>
+      <div class="anode ahl"><div class="anlbl">Monitoring</div><div class="ant">GCS</div><div class="ans">Telemetry and Override</div></div>
+    </div>
+  </div>
+
+  <div class="g3 stagger-children">
+    <div class="card ca">
+      <div class="ct">Tight Integration</div>
+      <div class="cb">Detection output feeds directly into flight commands. There is no manual relay step between seeing a target and acting on it.</div>
+    </div>
+    <div class="card ca">
+      <div class="ct">Redundant by Design</div>
+      <div class="cb">Every layer has a defined fallback. If a subsystem degrades mid-mission, the system transitions to a safe mode without operator input.</div>
+    </div>
+    <div class="card ca">
+      <div class="ct">Live Situational Awareness</div>
+      <div class="cb">Telemetry, video, and detection results all reach the GCS in real time so the operator always knows what the system is seeing and doing.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="dv">
+
+<!-- AI & AUTONOMY -->
+<section id="ai" class="sec pts">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">AI and Autonomy</div>
+    <h2 class="sh">From pixels to decisions.</h2>
+    <p class="slead">Our detection pipeline takes raw imagery and turns it into actionable outputs. Each stage is designed with latency and accuracy in mind, and the whole thing runs onboard during flight.</p>
+  </div>
+
+  <div class="pl reveal scale-in">
+    <div class="ps"><div class="psn">01</div><div class="pst">Image Capture</div><div class="psd">A downward-facing camera captures frames at set intervals across the survey area.</div></div>
+    <div class="ps"><div class="psn">02</div><div class="pst">Preprocessing</div><div class="psd">Frames are resized, normalized, and tagged with GPS and IMU data for accurate spatial mapping.</div></div>
+    <div class="ps"><div class="psn">03</div><div class="pst">Detection Model</div><div class="psd">A fine-tuned YOLO model classifies SUAS targets by shape, color, and alphanumeric character.</div></div>
+    <div class="ps"><div class="psn">04</div><div class="pst">Localization</div><div class="psd">Pixel positions are converted to GPS coordinates using camera intrinsics and altitude data.</div></div>
+    <div class="ps"><div class="psn">05</div><div class="pst">Decision Output</div><div class="psd">Confirmed targets are queued for payload drop, waypoint update, or operator review.</div></div>
+  </div>
+
+  <div class="tc" style="margin-top:3rem">
+    <div class="reveal from-left">
+      <div class="eyebrow">Decision Logic</div>
+      <h3 style="font-family:var(--fd);font-weight:700;font-size:1.15rem;margin-bottom:0.9rem;letter-spacing:-0.02em">Confidence-gated actions</h3>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1rem;line-height:1.75">Every detection goes through a confidence threshold before anything happens. Anything below that threshold gets flagged for the operator rather than acted on automatically. This keeps false positives from triggering a drop.</p>
+      <p style="font-size:0.875rem;color:var(--muted);line-height:1.75">The operator stays in the loop throughout. Autonomy here means handling the routine decisions, not removing human oversight.</p>
+    </div>
+    <div class="reveal from-right">
+      <div class="eyebrow">Mapping and Localization</div>
+      <h3 style="font-family:var(--fd);font-weight:700;font-size:1.15rem;margin-bottom:0.9rem;letter-spacing:-0.02em">Knowing where targets are</h3>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1rem;line-height:1.75">Target GPS coordinates are computed from pixel position, camera field of view, altitude, and heading. Results appear on the live map in the GCS as detections come in.</p>
+      <p style="font-size:0.875rem;color:var(--muted);line-height:1.75">We use multi-frame averaging to improve accuracy across overlapping passes of the same area.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- HARDWARE -->
+<div class="secfull sa pts" id="hardware">
+<div class="inner sec">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Hardware and Airframe</div>
+    <h2 class="sh">Built to carry the mission,<br>not to impress.</h2>
+    <p class="slead">Hardware decisions here come from requirements, not preferences. We picked a configuration that gives us the lift, redundancy, and flexibility the mission actually needs, and we did not add anything beyond that.</p>
+  </div>
+
+  <div class="g3 stagger-children">
+    <div class="card ca">
+      <div class="ct">Airframe</div>
+      <div class="cb">We chose a hexacopter configuration because it gives us motor redundancy and enough lift margin for the payload. The frame is sized around the system requirements, not the other way around.</div>
+    </div>
+    <div class="card ca">
+      <div class="ct">Payload Mechanism</div>
+      <div class="cb">The drop system is actuated on command from the flight controller. Release timing accounts for velocity and altitude so the payload lands where it needs to.</div>
+    </div>
+    <div class="card ca">
+      <div class="ct">Structural Priorities</div>
+      <div class="cb">Weight, rigidity, and repairability were the main design constraints. Parts that break in the field need to be replaceable, not just designed to never fail.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="dv">
+
+<!-- GCS -->
+<section id="gcs" class="sec pts">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Flight Control and GCS</div>
+    <h2 class="sh">Controlled flight.<br>Clear situational awareness.</h2>
+    <p class="slead">Our flight stack is built for reliability and transparency. The autopilot handles the routine workload and the GCS keeps the operator informed at every step.</p>
+  </div>
+
+  <div class="g2 stagger-children" style="margin-bottom:2rem">
+    <div class="card ca">
+      <div class="ct">Autopilot and Navigation</div>
+      <div class="cb" style="margin-bottom:0.75rem">The flight controller fuses data from multiple sensors to maintain a stable, accurate picture of the aircraft's position and attitude throughout the mission. Waypoint following and autonomous behaviors run on top of this foundation.</div>
+      <div><span class="chip">Sensor Fusion</span><span class="chip">Waypoint Navigation</span><span class="chip">Failsafe Modes</span></div>
+    </div>
+    <div class="card ca">
+      <div class="ct">Communication Links</div>
+      <div class="cb" style="margin-bottom:0.75rem">We use separate links for telemetry and video to avoid congestion. Both links have defined fallback behaviors if signal is lost, and the system returns home automatically under certain failure conditions.</div>
+      <div><span class="chip">Dual Link</span><span class="chip">Encrypted Telemetry</span><span class="chip">Auto Return-to-Home</span></div>
+    </div>
+  </div>
+
+  <div class="card reveal scale-in">
+    <div class="ct" style="margin-bottom:1.25rem">Ground Control Station</div>
+    <div class="g3">
+      <div>
+        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--p2);margin-bottom:0.55rem">Live Map</div>
+        <div style="font-size:0.83rem;color:var(--muted);line-height:1.65">The drone's position, its flight path, and any detected targets all appear on a live map. The operator can see coverage progress and intervene if needed.</div>
+      </div>
+      <div>
+        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--p2);margin-bottom:0.55rem">Telemetry</div>
+        <div style="font-size:0.83rem;color:var(--muted);line-height:1.65">Battery level, altitude, speed, and system health stream to the GCS continuously. Alerts are configured for conditions that require operator attention.</div>
+      </div>
+      <div>
+        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--p2);margin-bottom:0.55rem">Detection Feed</div>
+        <div style="font-size:0.83rem;color:var(--muted);line-height:1.65">Detection results appear alongside the video feed in real time. The operator reviews each one and decides whether to confirm or skip before anything is dropped.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- MISSION -->
+<div class="secfull sa pts" id="mission">
+<div class="inner sec">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Mission Strategy</div>
+    <h2 class="sh">Reliable first.<br>Everything else second.</h2>
+    <p class="slead">We plan around what we can actually execute, not what looks ambitious on paper. Complexity gets added when there is a clear reason for it, and not before.</p>
+  </div>
+
+  <div class="g3 stagger-children" style="margin-bottom:2.5rem">
+    <div class="card">
+      <div class="ct">Search and Detection</div>
+      <div class="cb">The drone runs a survey pattern over the search area with enough overlap to ensure full coverage. Detection results from each pass are aggregated and cross-checked before we act on them.</div>
+    </div>
+    <div class="card">
+      <div class="ct">Target Engagement</div>
+      <div class="cb">Once a target is confirmed, the drone returns to it at the right altitude and releases the payload at the calculated moment. Speed and altitude both factor into the timing.</div>
+    </div>
+    <div class="card">
+      <div class="ct">Contingency Handling</div>
+      <div class="cb">Low confidence means re-survey, not a guess. Every edge case in the mission logic has a defined fallback so the system does not end up in an undefined state mid-flight.</div>
+    </div>
+  </div>
+
+  <div class="tgrid reveal scale-in">
+    <div class="tcard">
+      <div class="tlbl pro">How we work</div>
+      <div class="ti">Use proven approaches before trying novel ones</div>
+      <div class="ti">Simulate the full mission before going to the field</div>
+      <div class="ti">Every autonomous action has a manual override path</div>
+      <div class="ti">Test what breaks, not just what works</div>
+      <div class="ti">Write down the reasoning behind every decision</div>
+    </div>
+    <div class="tcard">
+      <div class="tlbl con">Trade-offs we accepted</div>
+      <div class="ti">Hexacopter is heavier than a quad, but more resilient</div>
+      <div class="ti">Conservative detection thresholds mean fewer false drops</div>
+      <div class="ti">Re-survey costs flight time but improves accuracy</div>
+      <div class="ti">Manual confirmation adds a step but keeps the operator informed</div>
+      <div class="ti">Single camera keeps things simple at a cost to redundancy</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="dv">
+
+<!-- TESTING -->
+<section id="testing" class="sec pts">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Testing and Validation</div>
+    <h2 class="sh">We test until it is boring.</h2>
+    <p class="slead">Each subsystem gets validated on its own before it touches anything else. Then the whole thing gets tested together, repeatedly, until the behavior is predictable.</p>
+  </div>
+
+  <div class="tc">
+    <div>
+      <div class="tp reveal from-left"><div class="tpn">01</div><div><div class="tpt">Software-in-the-Loop</div><div class="tpd">Full mission simulation before any hardware is involved. Flight paths, detection events, and drop sequences all run in a virtual environment first.</div></div></div>
+      <div class="tp reveal from-left" style="transition-delay:0.1s"><div class="tpn">02</div><div><div class="tpt">Hardware-in-the-Loop</div><div class="tpd">Real flight controller, simulated environment. This catches firmware and interface issues before they show up in the air.</div></div></div>
+      <div class="tp reveal from-left" style="transition-delay:0.2s"><div class="tpn">03</div><div><div class="tpt">Bench Integration</div><div class="tpd">All subsystems assembled and talking to each other, but not flying. Power, data, and comms links are verified end to end.</div></div></div>
+    </div>
+    <div>
+      <div class="tp reveal from-right"><div class="tpn">04</div><div><div class="tpt">Hover and Stability</div><div class="tpd">Actual flight tests starting with tethered hover. We tune the controller and review flight logs before expanding the envelope.</div></div></div>
+      <div class="tp reveal from-right" style="transition-delay:0.1s"><div class="tpn">05</div><div><div class="tpt">Full Mission Rehearsal</div><div class="tpd">An end-to-end run with real targets in a controlled field. We measure drop accuracy and refine until the results are consistent.</div></div></div>
+      <div class="tp reveal from-right" style="transition-delay:0.2s"><div class="tpn">06</div><div><div class="tpt">Repeatability Gate</div><div class="tpd">We require five clean consecutive rehearsals before clearing the system for competition. Any failure means we investigate before continuing.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- MEDIA -->
+<div class="secfull sa pts" id="media">
+<div class="inner sec">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Media and Progress</div>
+    <h2 class="sh">Build log.</h2>
+    <p class="slead">Photos, footage, and updates as the build progresses. More will appear here as testing moves forward.</p>
+  </div>
+
+  <div class="mgrid stagger-children">
+    <div class="mthumb"><div class="mpl">Flight test footage coming soon</div><div class="mlbl">First hover test</div></div>
+    <div class="mthumb"><div class="mpl">Assembly photo coming soon</div><div class="mlbl">Airframe integration</div></div>
+    <div class="mthumb"><div class="mpl">Detection demo coming soon</div><div class="mlbl">Detection pipeline demo</div></div>
+    <div class="mthumb"><div class="mpl">GCS screenshot coming soon</div><div class="mlbl">GCS interface</div></div>
+    <div class="mthumb"><div class="mpl">Field test coming soon</div><div class="mlbl">Field rehearsal</div></div>
+    <div class="mthumb"><div class="mpl">Drop test coming soon</div><div class="mlbl">Payload drop test</div></div>
+  </div>
+
+  <div style="margin-top:3rem" class="reveal from-bottom">
+    <div class="eyebrow">Development Updates</div>
+    <div style="margin-top:1.1rem">
+      <div class="upd"><div class="udt">Apr 2026</div><div class="udtxt"><span class="udtag">Testing</span>Systems integration underway. Full mission rehearsals have started.</div></div>
+      <div class="upd"><div class="udt">Feb 2026</div><div class="udtxt"><span class="udtag">Milestone</span>Critical Design Review completed. Hardware procurement finalized.</div></div>
+      <div class="upd"><div class="udt">Nov 2025</div><div class="udtxt"><span class="udtag">Milestone</span>Preliminary Design Review passed. Architecture locked.</div></div>
+      <div class="upd"><div class="udt">Sep 2025</div><div class="udtxt"><span class="udtag">Kickoff</span>Team formed. Roles and project timeline established.</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="dv">
+
+<!-- DOCS -->
+<section id="docs" class="sec pts">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Documentation</div>
+    <h2 class="sh">Competition deliverables.</h2>
+    <p class="slead">All SUAS 2026 required documents, organized for quick access by judges, reviewers, and anyone on the team.</p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:0.9rem" class="stagger-children">
+    <a href="#" class="dc">
+      <div class="dci">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="1" width="14" height="18" rx="2" stroke="#a748b2" stroke-width="1.5"/><line x1="7" y1="7" x2="13" y2="7" stroke="#a748b2" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="11" x2="13" y2="11" stroke="#a748b2" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="15" x2="11" y2="15" stroke="#a748b2" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="dct">Technical Design Report (TDR)</div><div class="dcd">Full system documentation covering architecture, design decisions, subsystem specs, and integration.</div></div>
+      <div class="ds wip">In progress</div>
+    </a>
+    <a href="#" class="dc">
+      <div class="dci">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#a748b2" stroke-width="1.5"/><polygon points="9,7 16,11 9,15" fill="#a748b2" opacity="0.6"/></svg>
+      </div>
+      <div><div class="dct">Proof of Flight Readiness Video</div><div class="dcd">Demonstrates the UAV is airworthy, controllable, and ready for competition operations.</div></div>
+      <div class="ds pend">Pending</div>
+    </a>
+    <a href="#" class="dc">
+      <div class="dci">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#a748b2" stroke-width="1.5"/><polygon points="9,7 16,11 9,15" fill="#a748b2" opacity="0.6"/></svg>
+      </div>
+      <div><div class="dct">Proof of Pilot Competence Video</div><div class="dcd">Demonstrates a qualified pilot capable of safe manual operation of the aircraft.</div></div>
+      <div class="ds pend">Pending</div>
+    </a>
+    <a href="#" class="dc">
+      <div class="dci">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v4M11 15v4M3 11h4M15 11h4" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="11" r="3" stroke="#a748b2" stroke-width="1.5"/></svg>
+      </div>
+      <div><div class="dct">Safety Checklist and Risk Assessment</div><div class="dcd">Pre-flight and mission safety checklists, hazard identification, and emergency procedures.</div></div>
+      <div class="ds wip">In progress</div>
+    </a>
+    <a href="#" class="dc">
+      <div class="dci">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 11h10M4 16h7" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="dct">Mission Planner and Waypoint Files</div><div class="dcd">Survey route definitions, waypoint coordinates, and mission configuration files.</div></div>
+      <div class="ds pend">Pending</div>
+    </a>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- SPONSORS -->
+<div class="secfull sa pts" id="sponsors">
+<div class="inner sec">
+  <div class="reveal from-bottom">
+    <div class="eyebrow">Sponsors and Partners</div>
+    <h2 class="sh">Supported by people who<br>believe in the work.</h2>
+    <p class="slead">Our sponsors make this program possible. We are grateful for their support and proud to represent them at competition.</p>
+  </div>
+
+  <div class="stlbl">Platinum</div>
+  <div class="spgrid stagger-children">
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc spadd"><span class="spcpl">Become a Platinum Sponsor</span></div>
+  </div>
+
+  <div class="stlbl">Gold</div>
+  <div class="spgrid stagger-children">
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc spadd"><span class="spcpl">Become a Gold Sponsor</span></div>
+  </div>
+
+  <div class="stlbl">Silver and Bronze</div>
+  <div class="spgrid stagger-children">
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc"><span class="spcpl">Sponsor Logo</span></div>
+    <div class="spc spadd"><span class="spcpl">Contact us</span></div>
+  </div>
+
+  <div class="card reveal scale-in" style="margin-top:2.5rem;text-align:center;padding:2.5rem">
+    <div style="font-family:var(--fd);font-weight:700;font-size:1.1rem;margin-bottom:0.65rem">Want to support 6-DOF Drone Team?</div>
+    <div style="font-size:0.875rem;color:var(--muted);margin-bottom:1.5rem;max-width:460px;margin-left:auto;margin-right:auto">Sponsorships go directly toward hardware, competition costs, and development. Sponsors get prominent placement on our website, documentation, and airframe.</div>
+    <a class="btn btn-p" href="mailto:team@6dof.team">Get in touch</a>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div>
+      <div class="fb">6-DOF <span>Drone</span> Team</div>
+      <div class="ft">AUVSI SUAS 2026 — Building a system that works, end to end.</div>
+    </div>
+    <ul class="flinks">
+      <li><a href="#team">Team</a></li>
+      <li><a href="#system">System</a></li>
+      <li><a href="#ai">AI</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#docs">Docs</a></li>
+      <li><a href="#sponsors">Sponsors</a></li>
+    </ul>
+  </div>
+  <div class="fbot">
+    <div class="fcopy">2026 6-DOF Drone Team. All rights reserved.</div>
+    <div class="fcopy">Competing at AUVSI SUAS 2026</div>
+  </div>
+</footer>
+
+<script>
+// Unified reveal observer for both .reveal and .stagger-children
+const all = document.querySelectorAll('.reveal, .stagger-children');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+all.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
