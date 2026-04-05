@@ -209,7 +209,27 @@ hr.dv{border:none;border-top:1px solid var(--brd2)}
 .stagger-children.in > *:nth-child(7){transition-delay:0.53s}
 .stagger-children.in > *:nth-child(8){transition-delay:0.61s}
 .stagger-children.in > *{opacity:1;transform:none}
+/* CUSTOM CURSOR */
+body {
+  cursor: none;
+}
 
+.cursor-dot{
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #a748b2;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px rgba(167,72,178,0.6);
+}
+
+.cursor-dot.hover{
+  transform: translate(-50%, -50%) scale(1.8);
+  background: #c06acc;
+}
 @media(max-width:900px){
   nav{padding:0.9rem 1.25rem}.nlinks{display:none}
   .hero{grid-template-columns:1fr;padding:6.5rem 1.25rem 3rem;text-align:center;gap:2rem}
@@ -297,7 +317,7 @@ hr.dv{border:none;border-top:1px solid var(--brd2)}
   </div>
 </div>
 </section>
-
+<div class="cursor-dot"></div>
 <div class="caps">
   <div class="cap"><div class="cdot"></div><span class="ctxt">Autonomous Flight Control</span></div>
   <div class="cap"><div class="cdot"></div><span class="ctxt">Real-time Object Detection</span></div>
@@ -771,7 +791,17 @@ hr.dv{border:none;border-top:1px solid var(--brd2)}
   </div>
 </div>
 </div>
-
+.cursor-dot{
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: #a748b2;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px rgba(167,72,178,0.6);
+}
 <!-- FOOTER -->
 <footer>
   <div class="fi">
@@ -806,6 +836,17 @@ const io = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 all.forEach(el => io.observe(el));
+</script>
+<script>
+const cursor = document.querySelector('.cursor-dot');
+document.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
 </script>
 </body>
 </html>
