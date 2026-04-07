@@ -123,6 +123,120 @@ h2.sh{font-family:var(--fd);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;l
 .str:last-child{border-bottom:none}
 
 /* MEMBER CARDS */
+.subteam-members{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.35rem;
+  margin-top:1.5rem;
+}
+
+.subteam-block{
+  background:var(--surf);
+  border:1px solid var(--brd2);
+  border-radius:16px;
+  padding:1.35rem;
+  transition:border-color 0.25s,transform 0.25s;
+}
+
+.subteam-block:hover{
+  border-color:rgba(167,72,178,0.28);
+  transform:translateY(-3px);
+}
+
+.subteam-head{
+  margin-bottom:1rem;
+  padding-bottom:0.9rem;
+  border-bottom:1px solid var(--brd2);
+}
+
+.subteam-title{
+  font-family:var(--fd);
+  font-size:1rem;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  color:var(--text);
+}
+
+.subteam-sub{
+  font-size:0.78rem;
+  color:var(--muted);
+  margin-top:0.2rem;
+  line-height:1.6;
+}
+
+.lead-card{
+  background:linear-gradient(135deg, rgba(140,49,161,0.16), rgba(167,72,178,0.08));
+  border:1px solid rgba(167,72,178,0.22);
+  border-radius:12px;
+  padding:0.95rem 1rem;
+  margin-bottom:0.9rem;
+}
+
+.lead-name{
+  font-family:var(--fd);
+  font-size:1.08rem;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  color:var(--text);
+}
+
+.lead-role{
+  font-size:0.76rem;
+  color:var(--p2);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin-top:0.18rem;
+}
+
+.member-list{
+  display:flex;
+  flex-direction:column;
+  gap:0.55rem;
+}
+
+.member-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding:0.7rem 0.1rem;
+  border-bottom:1px solid var(--brd2);
+}
+
+.member-row:last-child{
+  border-bottom:none;
+  padding-bottom:0.1rem;
+}
+
+.member-name{
+  font-size:0.88rem;
+  color:var(--text);
+  font-weight:500;
+}
+
+.member-role{
+  font-size:0.72rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  white-space:nowrap;
+}
+
+@media(max-width:900px){
+  .subteam-members{
+    grid-template-columns:1fr;
+  }
+
+  .member-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0.15rem;
+  }
+
+  .member-role{
+    white-space:normal;
+  }
+}
 .member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.25rem}
 .mc{background:var(--surf);border:1px solid var(--brd2);border-radius:14px;padding:1.25rem;text-align:center;transition:border-color 0.25s,transform 0.25s}
 .mc:hover{border-color:rgba(167,72,178,0.28);transform:translateY(-3px)}
@@ -405,150 +519,128 @@ hr.dv{border:none;border-top:1px solid var(--brd2)}
     <div class="eyebrow">Members</div>
   </div>
 
-  <div class="member-grid stagger-children">
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Yaqine Saada</div>
-      <div class="mr">Team Lead / Systems Lead</div>
-      <div class="msub">Leadership</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Yaqine Saada</div>
-      <div class="mr">AI Lead</div>
-      <div class="msub">AI / Perception</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Ushna Rizwan</div>
-      <div class="mr">Payload Lead</div>
-      <div class="msub">Payload</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Sama Alshuibi</div>
-      <div class="mr">Payload Member</div>
-      <div class="msub">Payload</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Daline Dahlan</div>
-      <div class="mr">Airframe Lead</div>
-      <div class="msub">Airframe</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Bayan Albadeen</div>
-      <div class="mr">Airframe Member</div>
-      <div class="msub">Airframe</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Xixi Zhang</div>
-      <div class="mr">GN&amp;C Lead</div>
-      <div class="msub">GN&amp;C</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Shahad Althubyani</div>
-      <div class="mr">GN&amp;C Member</div>
-      <div class="msub">GN&amp;C</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Bayan Oraybi</div>
-      <div class="mr">GN&amp;C Member</div>
-      <div class="msub">GN&amp;C</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Kholood Althobaiti</div>
-      <div class="mr">AI Member</div>
-      <div class="msub">AI / Perception</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Forkan Alsalman</div>
-      <div class="mr">AI Member</div>
-      <div class="msub">AI / Perception</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Irina Saleem</div>
-      <div class="mr">Avionics Lead</div>
-      <div class="msub">Avionics</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Ealaf Alsermani</div>
-      <div class="mr">Avionics Member</div>
-      <div class="msub">Avionics</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Maiss Khalaf</div>
-      <div class="mr">Website Lead</div>
-      <div class="msub">Documentation</div>
-    </div>
-    <div class="mc">
-      <div class="mphoto"><svg viewBox="0 0 42 42" fill="none"><circle cx="21" cy="16" r="8" fill="#a748b2" opacity="0.3"/><path d="M6 38c0-8.284 6.716-15 15-15s15 6.716 15 15" stroke="#a748b2" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/></svg></div>
-      <div class="mn">Elaf Alsaleh</div>
-      <div class="mr">Social Media Lead</div>
-      <div class="msub">Documentation</div>
-    </div>
-  </div>
-
-  <div class="reveal from-bottom" style="margin-top:3rem;background:var(--surf);border:1px solid var(--brd2);border-radius:14px;padding:1.7rem">
-    <div class="eyebrow">Contact</div>
-    <p style="font-size:0.92rem;color:var(--muted);line-height:1.8">
-      Team Name: 6-DOF Drone Team<br>
-      School: KFUPM<br>
-      Contact Email: team6dof@outlook.com
-    </p>
-  </div>
-</section>
-
-<hr class="dv">
-
-<!-- SYSTEM OVERVIEW -->
-<div class="secfull sa pts" id="system">
-<div class="inner sec">
-  <div class="reveal from-bottom">
-    <div class="eyebrow">System Overview</div>
-    <h2 class="sh">One system.<br>Every part connected.</h2>
-    <p class="slead">We are building the vehicle as an integrated mission system, not a set of isolated subsystems. Airframe, avionics, AI, GN&amp;C, payload, and GCS are all defined around data flow, safe control authority, and repeatable mission execution.</p>
-  </div>
-
-  <div class="arch reveal scale-in">
-    <div style="margin-bottom:1.4rem;font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em">Full System Data Flow</div>
-    <div class="arow">
-      <div class="anode ahl"><div class="anlbl">Sensing</div><div class="ant">Camera and Navigation Sensors</div><div class="ans">RGB, GPS, IMU, Altitude</div></div>
-      <div class="aarr">→</div>
-      <div class="anode ahl"><div class="anlbl">Processing</div><div class="ant">AI / Perception Pipeline</div><div class="ans">Detection, Mapping, Localization</div></div>
-      <div class="aarr">→</div>
-      <div class="anode ahl"><div class="anlbl">Autonomy</div><div class="ant">GN&amp;C + Flight Controller</div><div class="ans">Mission Logic and Navigation</div></div>
-      <div class="aarr">→</div>
-      <div class="anode ahl"><div class="anlbl">Action</div><div class="ant">Payload Mechanism</div><div class="ans">Correct Target, Controlled Release</div></div>
-      <div class="aarr">→</div>
-      <div class="anode ahl"><div class="anlbl">Monitoring</div><div class="ant">Ground Control Station</div><div class="ans">Map, Telemetry, Operator Review</div></div>
-    </div>
-  </div>
-
-  <div class="g3 stagger-children">
-    <div class="card ca">
-      <div class="ct">Subsystem Ownership</div>
-      <div class="cb">Each subsystem has a defined lead and clear responsibility, which reduces ambiguity during integration and testing.</div>
-    </div>
-    <div class="card ca">
-      <div class="ct">Competition-Driven Architecture</div>
-      <div class="cb">Architecture choices are tied back to SUAS tasks: laps, mapping, search and detection, delivery, operator efficiency, and safe field execution.</div>
-    </div>
-    <div class="card ca">
-      <div class="ct">Real-Time GCS Awareness</div>
-      <div class="cb">The GCS is treated as mission-critical, with live map, speed, altitude, flight boundary awareness, and target information visible during operations.</div>
-    </div>
-  </div>
+ <div class="reveal from-bottom" style="margin-bottom:1.25rem">
+  <div class="eyebrow">Members</div>
+  <h3 style="font-family:var(--fd);font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;margin-bottom:0.4rem">Subsystem Team Structure</h3>
+  <p style="font-size:0.88rem;color:var(--muted);max-width:700px;line-height:1.75">
+    Organized by subsystem ownership, with lead roles visually emphasized and supporting members listed directly below.
+  </p>
 </div>
+
+<div class="subteam-members stagger-children">
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">Leadership</div>
+      <div class="subteam-sub">System coordination and full-team integration</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Yaqine Saada</div>
+      <div class="lead-role">Team Lead / Systems Lead</div>
+    </div>
+  </div>
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">Payload</div>
+      <div class="subteam-sub">Delivery mechanism design and integration</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Ushna Rizwan</div>
+      <div class="lead-role">Payload Lead</div>
+    </div>
+    <div class="member-list">
+      <div class="member-row">
+        <span class="member-name">Sama Alshuibi</span>
+        <span class="member-role">Payload Member</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">Airframe</div>
+      <div class="subteam-sub">Structure, assembly, and propulsion optimization</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Daline Dahlan</div>
+      <div class="lead-role">Airframe Lead</div>
+    </div>
+    <div class="member-list">
+      <div class="member-row">
+        <span class="member-name">Bayan Albadeen</span>
+        <span class="member-role">Airframe Member</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">GN&amp;C</div>
+      <div class="subteam-sub">Flight controller setup, autonomy, and mission execution</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Xixi Zhang</div>
+      <div class="lead-role">GN&amp;C Lead</div>
+    </div>
+    <div class="member-list">
+      <div class="member-row">
+        <span class="member-name">Shahad Althubyani</span>
+        <span class="member-role">GN&amp;C Member</span>
+      </div>
+      <div class="member-row">
+        <span class="member-name">Bayan Oraybi</span>
+        <span class="member-role">GN&amp;C Member</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">AI / Perception</div>
+      <div class="subteam-sub">Detection, mapping, and perception pipeline</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Yaqine Saada</div>
+      <div class="lead-role">AI Lead</div>
+    </div>
+    <div class="member-list">
+      <div class="member-row">
+        <span class="member-name">Kholood Althobaiti</span>
+        <span class="member-role">AI Member</span>
+      </div>
+      <div class="member-row">
+        <span class="member-name">Sana Ammar</span>
+        <span class="member-role">AI Member</span>
+      </div>
+      <div class="member-row">
+        <span class="member-name">Forkan Alsalman</span>
+        <span class="member-role">AI Member</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subteam-block">
+    <div class="subteam-head">
+      <div class="subteam-title">Avionics</div>
+      <div class="subteam-sub">Wiring, sensors, power system, and electronics integration</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-name">Irina Saleem</div>
+      <div class="lead-role">Avionics Lead</div>
+    </div>
+    <div class="member-list">
+      <div class="member-row">
+        <span class="member-name">Ealaf Alsermani</span>
+        <span class="member-role">Avionics Member</span>
+      </div>
+      <div class="member-row">
+        <span class="member-name">Jinan Shajri</span>
+        <span class="member-role">Avionics Member</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <hr class="dv">
