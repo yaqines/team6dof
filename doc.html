@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation | 6-DOF Drone Team</title>
+<link rel="icon" type="image/png" href="logo.png">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:#080810;
+  color:#f0eef5;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:#0e0e1a;
+}
+
+nav a{
+  color:#8a879e;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+nav a:hover{
+  color:white;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo img{
+  width:35px;
+}
+
+/* SECTION */
+.section{
+  padding:60px 30px;
+  max-width:1100px;
+  margin:auto;
+}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#8a879e;
+  margin-bottom:40px;
+}
+
+/* DOC LIST */
+.doc{
+  background:#1a1a2e;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:15px;
+  border:1px solid rgba(167,72,178,0.2);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.doc-info{
+  max-width:70%;
+}
+
+.doc-title{
+  font-weight:600;
+  margin-bottom:5px;
+}
+
+.doc-desc{
+  font-size:14px;
+  color:#8a879e;
+}
+
+/* STATUS */
+.status{
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.inprogress{
+  background:rgba(167,72,178,0.2);
+  color:#c06acc;
+}
+
+.pending{
+  background:rgba(255,200,0,0.2);
+  color:#ffcc00;
+}
+
+.ready{
+  background:rgba(0,255,150,0.2);
+  color:#00ff99;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  margin-top:40px;
+  color:#8a879e;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="logo.png">
+    <span>6-DOF Drone</span>
+  </div>
+
+  <div>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="ai.html">AI</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="docs.html">Docs</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="section">
+  <h1>Documentation</h1>
+  <p class="subtitle">Competition deliverables and supporting materials.</p>
+
+  <!-- DOCS -->
+
+  <div class="doc">
+    <div class="doc-info">
+      <div class="doc-title">Technical Design Report (TDR)</div>
+      <div class="doc-desc">Full system design, strategy, and technical justification.</div>
+    </div>
+    <div class="status inprogress">In Progress</div>
+  </div>
+
+  <div class="doc">
+    <div class="doc-info">
+      <div class="doc-title">Flight Readiness Video</div>
+      <div class="doc-desc">Proof of autonomous flight and system readiness.</div>
+    </div>
+    <div class="status pending">Pending</div>
+  </div>
+
+  <div class="doc">
+    <div class="doc-info">
+      <div class="doc-title">Pilot Competence Video</div>
+      <div class="doc-desc">Manual control and safety demonstration.</div>
+    </div>
+    <div class="status pending">Pending</div>
+  </div>
+
+  <div class="doc">
+    <div class="doc-info">
+      <div class="doc-title">Safety & Risk Documentation</div>
+      <div class="doc-desc">Procedures, battery safety, and emergency handling.</div>
+    </div>
+    <div class="status inprogress">In Progress</div>
+  </div>
+
+  <div class="doc">
+    <div class="doc-info">
+      <div class="doc-title">Build Logs & Procedures</div>
+      <div class="doc-desc">Design decisions, testing records, and development updates.</div>
+    </div>
+    <div class="status ready">Active</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  2026 6-DOF Drone Team — SUAS Competition
+</footer>
+
+</body>
+</html>
