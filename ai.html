@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI | 6-DOF Drone Team</title>
+<link rel="icon" type="image/png" href="logo.png">
 
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:#080810;
+  color:#f0eef5;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:#0e0e1a;
+}
+
+nav a{
+  color:#8a879e;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+nav a:hover{
+  color:white;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo img{
+  width:35px;
+}
+
+/* SECTION */
+.section{
+  padding:60px 30px;
+  max-width:1100px;
+  margin:auto;
+}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#8a879e;
+  margin-bottom:40px;
+}
+
+/* PIPELINE */
+.pipeline{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+.step{
+  background:#1a1a2e;
+  border-radius:12px;
+  padding:20px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.step h3{
+  color:#c06acc;
+  margin-bottom:10px;
+}
+
+/* TEXT BLOCK */
+.block{
+  margin-top:40px;
+  background:#1a1a2e;
+  padding:20px;
+  border-radius:12px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.block h3{
+  color:#c06acc;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  margin-top:40px;
+  color:#8a879e;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="logo.png">
+    <span>6-DOF Drone</span>
+  </div>
+
+  <div>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="ai.html">AI</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="docs.html">Docs</a>
+    <a href="sponsors.html">Sponsors</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="section">
+  <h1>AI & Autonomy</h1>
+  <p class="subtitle">From perception to decision-making in mission-critical scenarios.</p>
+
+  <!-- PIPELINE -->
+  <div class="pipeline">
+
+    <div class="step">
+      <h3>1. Image Capture</h3>
+      <p>Camera captures real-time mission images across the search area.</p>
+    </div>
+
+    <div class="step">
+      <h3>2. Preprocessing</h3>
+      <p>Frames are cleaned and tagged with GPS and orientation data.</p>
+    </div>
+
+    <div class="step">
+      <h3>3. Detection</h3>
+      <p>AI detects targets and filters out false positives.</p>
+    </div>
+
+    <div class="step">
+      <h3>4. Localization</h3>
+      <p>Convert detections into real-world coordinates.</p>
+    </div>
+
+    <div class="step">
+      <h3>5. Decision</h3>
+      <p>System decides mapping, revisit, or payload delivery.</p>
+    </div>
+
+  </div>
+
+  <!-- EXTRA -->
+  <div class="block">
+    <h3>Detection Philosophy</h3>
+    <p>
+      The system prioritizes reliability over risky decisions. Multiple confirmations
+      are required before triggering mission actions, ensuring stable competition performance.
+    </p>
+  </div>
+
+  <div class="block">
+    <h3>Mapping Output</h3>
+    <p>
+      AI supports risk mapping and target identification. Output is designed to be
+      usable for judges and mission planning, not just raw detection data.
+    </p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  2026 6-DOF Drone Team — SUAS Competition
+</footer>
+
+</body>
+</html>
