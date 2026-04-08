@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware | 6-DOF Drone Team</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:#080810;
+  color:#f0eef5;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:#0e0e1a;
+}
+
+nav a{
+  color:#8a879e;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+nav a:hover{
+  color:white;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo img{
+  width:35px;
+}
+
+.section{
+  padding:60px 30px;
+  max-width:1100px;
+  margin:auto;
+}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#8a879e;
+  margin-bottom:40px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1a1a2e;
+  border-radius:12px;
+  padding:22px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.card h3{
+  margin-top:0;
+  margin-bottom:10px;
+  color:#c06acc;
+}
+
+.card p{
+  color:#d6d3e0;
+  line-height:1.7;
+}
+
+.block{
+  margin-top:35px;
+  background:#1a1a2e;
+  padding:22px;
+  border-radius:12px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.block h3{
+  margin-top:0;
+  color:#c06acc;
+}
+
+.block p{
+  line-height:1.8;
+  color:#d6d3e0;
+}
+
+.tags{
+  margin-top:12px;
+}
+
+.tag{
+  display:inline-block;
+  background:#20203a;
+  color:#8a879e;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  margin:4px 6px 0 0;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  margin-top:40px;
+  color:#8a879e;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <span>6-DOF Drone</span>
+  </div>
+
+  <div>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="ai.html">AI</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="docs.html">Docs</a>
+    <a href="sponsors.html">Sponsors</a>
+  </div>
+</nav>
+
+<div class="section">
+  <h1>Hardware & Airframe</h1>
+  <p class="subtitle">Built for endurance, maintainability, payload integration, and field reliability.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Airframe</h3>
+      <p>
+        The airframe is designed to support stable flight, safe payload carriage,
+        and reliable integration with avionics and propulsion systems.
+      </p>
+      <div class="tags">
+        <span class="tag">Structure</span>
+        <span class="tag">Stability</span>
+        <span class="tag">Assembly</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Payload System</h3>
+      <p>
+        The payload mechanism is developed to achieve controlled delivery while
+        remaining lightweight, practical, and competition-ready.
+      </p>
+      <div class="tags">
+        <span class="tag">Delivery</span>
+        <span class="tag">Integration</span>
+        <span class="tag">Safety</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Avionics</h3>
+      <p>
+        Avionics integration covers wiring, sensors, power distribution, and
+        electronics layout to support a robust and maintainable UAV platform.
+      </p>
+      <div class="tags">
+        <span class="tag">Sensors</span>
+        <span class="tag">Power</span>
+        <span class="tag">Electronics</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Subsystem Ownership</h3>
+    <p>
+      Airframe work is led by Daline Dahlan with Bayan Albadeen supporting the
+      structure and propulsion side of the build. Payload work is led by Ushna
+      Rizwan with Sama Alshuibi supporting the design and integration of the
+      delivery mechanism. Irina Saleem leads avionics, wiring, sensors, and
+      power integration.
+    </p>
+  </div>
+
+  <div class="block">
+    <h3>Design Philosophy</h3>
+    <p>
+      The hardware stack is built around what can actually survive testing and
+      competition conditions. The focus is not on complexity for its own sake,
+      but on creating a vehicle that is dependable, serviceable, and efficient
+      under real mission pressure.
+    </p>
+  </div>
+</div>
+
+<footer>
+  2026 6-DOF Drone Team — SUAS Competition
+</footer>
+
+</body>
+</html>
