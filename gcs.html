@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCS | 6-DOF Drone Team</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:#080810;
+  color:#f0eef5;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:#0e0e1a;
+}
+
+nav a{
+  color:#8a879e;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+nav a:hover{
+  color:white;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo img{
+  width:35px;
+}
+
+.section{
+  padding:60px 30px;
+  max-width:1100px;
+  margin:auto;
+}
+
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#8a879e;
+  margin-bottom:40px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1a1a2e;
+  border-radius:12px;
+  padding:22px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.card h3{
+  margin-top:0;
+  margin-bottom:10px;
+  color:#c06acc;
+}
+
+.card p{
+  color:#d6d3e0;
+  line-height:1.7;
+}
+
+.block{
+  margin-top:35px;
+  background:#1a1a2e;
+  padding:22px;
+  border-radius:12px;
+  border:1px solid rgba(167,72,178,0.2);
+}
+
+.block h3{
+  margin-top:0;
+  color:#c06acc;
+}
+
+.block p{
+  line-height:1.8;
+  color:#d6d3e0;
+}
+
+.tags{
+  margin-top:12px;
+}
+
+.tag{
+  display:inline-block;
+  background:#20203a;
+  color:#8a879e;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:12px;
+  margin:4px 6px 0 0;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  margin-top:40px;
+  color:#8a879e;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <span>6-DOF Drone</span>
+  </div>
+
+  <div>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="ai.html">AI</a>
+    <a href="hardware.html">Hardware</a>
+    <a href="gcs.html">GCS</a>
+    <a href="docs.html">Docs</a>
+  </div>
+</nav>
+
+<div class="section">
+  <h1>Flight Control & GCS</h1>
+  <p class="subtitle">Operator awareness, mission visibility, and reliable autonomous execution.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>GN&amp;C</h3>
+      <p>
+        The guidance, navigation, and control system supports waypoint navigation,
+        mission execution, and autonomy setup with emphasis on repeatability and safety.
+      </p>
+      <div class="tags">
+        <span class="tag">Waypoint Navigation</span>
+        <span class="tag">Autonomy</span>
+        <span class="tag">Mission Control</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Ground Control Station</h3>
+      <p>
+        The GCS is designed to keep the operator aware of flight boundaries,
+        vehicle position, altitude, ground speed, and mission state in real time.
+      </p>
+      <div class="tags">
+        <span class="tag">Telemetry</span>
+        <span class="tag">Live Map</span>
+        <span class="tag">Boundary Awareness</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Operational Reliability</h3>
+      <p>
+        Flight information is presented clearly so that the operator can monitor
+        the UAV, respond to issues, and maintain safe oversight during the mission.
+      </p>
+      <div class="tags">
+        <span class="tag">Safety</span>
+        <span class="tag">Clarity</span>
+        <span class="tag">Decision Support</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Subsystem Ownership</h3>
+    <p>
+      Xixi Zhang leads GN&amp;C, with Shahad Althubyani and Bayan Oraybi supporting
+      autonomy setup, waypoint execution, and reliability-focused testing and debugging.
+    </p>
+  </div>
+
+  <div class="block">
+    <h3>What the GCS Should Always Show</h3>
+    <p>
+      The display should always present the flight boundary, current UAV position,
+      mission progress, altitude, ground speed, and essential system health data.
+      Task-relevant outputs such as target locations and mapping information should
+      remain visible so decisions are explainable and safe.
+    </p>
+  </div>
+
+  <div class="block">
+    <h3>Design Goal</h3>
+    <p>
+      The goal of the GCS is not only to display data, but to reduce operator load
+      while preserving awareness. A clear interface improves mission execution,
+      safety, and judge-facing professionalism during competition.
+    </p>
+  </div>
+</div>
+
+<footer>
+  2026 6-DOF Drone Team — SUAS Competition
+</footer>
+
+</body>
+</html>
